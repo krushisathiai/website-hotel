@@ -1,40 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Colors - Premium Deep Dark Theme */
-  --color-bg: #09090b; /* Very dark, almost black */
-  --color-bg-secondary: #121217; /* Slightly lighter */
-  --color-bg-tertiary: #18181f; /* Card backgrounds */
-  --color-surface: rgba(24, 24, 31, 0.7); /* Glassmorphic base */
-  --color-surface-hover: rgba(30, 30, 38, 0.8);
-  --color-surface-active: rgba(40, 40, 50, 0.9);
+  /* Colors - Luxury Hotel Sapphire & Royal Amber Theme */
+  --color-bg: #070b14; /* Deep luxury sapphire-black */
+  --color-bg-secondary: #0c1220; /* Deep navy */
+  --color-bg-tertiary: #131c31; /* Card backgrounds */
+  --color-surface: rgba(16, 24, 42, 0.85); /* Glassmorphic base */
+  --color-surface-hover: rgba(22, 33, 58, 0.95);
+  --color-surface-active: rgba(30, 45, 80, 0.95);
 
-  /* Brand - Electric Indigo */
-  --color-primary: #818cf8;
-  --color-primary-hover: #6366f1;
-  --color-primary-light: rgba(129, 140, 248, 0.15);
-  --color-primary-glow: rgba(129, 140, 248, 0.4);
+  /* Brand - Royal Gold / Amber & Electric Indigo */
+  --color-primary: #f59e0b; /* Royal gold primary */
+  --color-primary-hover: #d97706;
+  --color-primary-light: rgba(245, 158, 11, 0.15);
+  --color-primary-glow: rgba(245, 158, 11, 0.4);
+
+  --color-accent: #6366f1; /* Indigo secondary accent */
+  --color-accent-light: rgba(99, 102, 241, 0.15);
 
   /* Accents */
-  --color-success: #10b981;
+  --color-success: #10b981; /* Emerald */
   --color-success-light: rgba(16, 185, 129, 0.15);
   --color-warning: #f59e0b;
   --color-warning-light: rgba(245, 158, 11, 0.15);
-  --color-danger: #f43f5e;
-  --color-danger-light: rgba(244, 63, 94, 0.15);
-  --color-info: #3b82f6;
-  --color-info-light: rgba(59, 130, 246, 0.15);
+  --color-danger: #ef4444;
+  --color-danger-light: rgba(239, 68, 68, 0.15);
+  --color-info: #0ea5e9;
+  --color-info-light: rgba(14, 165, 233, 0.15);
 
   /* Text */
-  --color-text: #f8fafc;
+  --color-text: #ffffff;
   --color-text-secondary: #cbd5e1;
-  --color-text-muted: #64748b;
-  --color-text-inverse: #0f172a;
+  --color-text-muted: #8492a6;
+  --color-text-inverse: #070b14;
 
   /* Borders */
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-hover: rgba(255, 255, 255, 0.12);
-  --color-border-glow: rgba(129, 140, 248, 0.2);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(245, 158, 11, 0.4);
+  --color-border-glow: rgba(245, 158, 11, 0.25);
 
   /* Shadows */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);

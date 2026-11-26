@@ -26,12 +26,23 @@ export default function Restaurant() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [servicesRes, bookingsRes] = await Promise.all([
-        api.get('/services'),
-        api.get('/bookings')
+      const [menuRes, bookingsRes] = await Promise.all([
+        api.get('/restaurant/menu'),
+        api.get('/bookings?limit=100')
       ]);
-      setServices(servicesRes.data.data || []);
-      setBookings(bookingsRes.data.data?.filter(b => b.status === 'CHECKED_IN') || []);
+      const categories = Array.isArray(menuRes.data) ? menuRes.data : [];
+      const allItems = [];
+      categories.forEach(c => {
+        (c.items || []).forEach(item => {
+          allItems.push({ ...item, category: c.name });
+        });
+      });
+      setServices(allItems);
+
+      const bList = Array.isArray(bookingsRes.data)
+        ? bookingsRes.data
+        : (bookingsRes.data.bookings || bookingsRes.data.data || []);
+      setBookings(bList.filter(b => ['CONFIRMED', 'CHECKED_IN'].includes(b.status)));
     } catch (err) {
       toast.error('Failed to load menu & services');
     } finally {
@@ -64,8 +75,26 @@ export default function Restaurant() {
       toast.error('Select an in-house guest room');
       return;
     }
-    toast.success(`Ordered ${orderForm.quantity}x ${selectedService.name}! Charged ₹${selectedService.price * orderForm.quantity} to room bill.`);
-    setShowOrderModal(false);
+
+    try {
+      const selectedBooking = bookings.find(b => b.id === orderForm.bookingId);
+      const roomNum = selectedBooking?.room?.number || selectedBooking?.room?.roomNumber || 'Walk-in';
+      const guestName = `${selectedBooking?.guest?.firstName || ''} ${selectedBooking?.guest?.lastName || ''}`.trim() || 'Guest';
+
+      await api.post('/restaurant/orders', {
+        bookingId: orderForm.bookingId,
+        roomNumber: String(roomNum),
+        guestName,
+        items: [
+          { itemId: selectedService.id, quantity: Number(orderForm.quantity) || 1 }
+        ]
+      });
+
+      toast.success(`Ordered ${orderForm.quantity}x ${selectedService.name}! Added to live kitchen ticket & room bill.`);
+      setShowOrderModal(false);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to send food order');
+    }
   };
 
   const openOrder = (item) => {

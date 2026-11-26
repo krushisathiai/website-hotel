@@ -34,8 +34,10 @@ export default function Rooms() {
         api.get('/rooms'),
         api.get('/room-types')
       ]);
-      setRooms(roomsRes.data.data || []);
-      setRoomTypes(typesRes.data.data || []);
+      const rList = Array.isArray(roomsRes.data) ? roomsRes.data : (roomsRes.data.rooms || roomsRes.data.data || []);
+      const tList = Array.isArray(typesRes.data) ? typesRes.data : (typesRes.data.types || typesRes.data.data || []);
+      setRooms(rList);
+      setRoomTypes(tList);
     } catch (err) {
       console.error(err);
       toast.error('Failed to load rooms');
@@ -52,7 +54,7 @@ export default function Rooms() {
     if (room) {
       setEditingRoom(room);
       setFormData({
-        roomNumber: room.roomNumber,
+        roomNumber: room.number || room.roomNumber,
         roomTypeId: room.roomTypeId,
         floor: room.floor,
         status: room.status,
@@ -227,7 +229,7 @@ export default function Rooms() {
               <div className="room-card-header">
                 <div>
                   <span className="text-xs text-muted">Floor {room.floor}</span>
-                  <h3 className="text-lg font-bold">Room {room.roomNumber}</h3>
+                  <h3 className="text-lg font-bold">Room {room.number || room.roomNumber}</h3>
                 </div>
                 <span className={`badge ${getStatusBadgeClass(room.status)}`}>
                   {room.status}

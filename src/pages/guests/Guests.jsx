@@ -27,8 +27,9 @@ export default function Guests() {
   const fetchGuests = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/guests');
-      setGuests(res.data.data || []);
+      const res = await api.get('/guests?limit=100');
+      const gList = Array.isArray(res.data) ? res.data : (res.data.guests || res.data.data || []);
+      setGuests(gList);
     } catch (err) {
       toast.error('Failed to load guests');
     } finally {

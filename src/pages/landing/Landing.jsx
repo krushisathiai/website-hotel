@@ -61,15 +61,15 @@ const faqs = [
   },
   {
     q: 'Does it support role-based permissions?',
-    a: 'Yes, LuxeStay includes 5 specialized pre-built roles: Hotel Admin, Manager, Receptionist, Housekeeping, and Accountant. Each role only has access to the modules they need.'
+    a: 'Yes, LuxeStay features 4 dedicated core portals: Hotel Admin (Master Control), Waiter & Kitchen Staff (Live Orders & Dining), Cashier & Billing (1-Click Unified Checkouts), and User / Guest Services (Fast Room Booking & In-Room Food Ordering).'
   },
   {
     q: 'Is my hotel data safe in the cloud?',
-    a: 'We use enterprise-grade PostgreSQL with SSL encryption, JWT authentication, and automatic cloud backups to guarantee 99.9% uptime and data privacy.'
+    a: 'We use enterprise-grade Neon PostgreSQL with SSL encryption, JWT authentication, and automatic cloud backups to guarantee 99.9% uptime and data privacy.'
   },
   {
     q: 'Can I test the system before committing?',
-    a: 'Yes! We have pre-seeded demo accounts for all roles (Admin, Manager, Reception, Housekeeping, Accountant) that you can test immediately with 1-click on the login page.'
+    a: 'Yes! We provide 1-click auto-fill demo logins for all 4 roles (Admin, Waiter, Billing, Guest) on the login page so you can experience the complete real-time workflow instantly.'
   }
 ];
 

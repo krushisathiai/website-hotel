@@ -34,13 +34,16 @@ export default function Bookings({ onOpenInvoice }) {
     try {
       setLoading(true);
       const [bookingsRes, roomsRes, guestsRes] = await Promise.all([
-        api.get('/bookings'),
+        api.get('/bookings?limit=100'),
         api.get('/rooms'),
-        api.get('/guests')
+        api.get('/guests?limit=100')
       ]);
-      setBookings(bookingsRes.data.data || []);
-      setRooms(roomsRes.data.data || []);
-      setGuests(guestsRes.data.data || []);
+      const bList = Array.isArray(bookingsRes.data) ? bookingsRes.data : (bookingsRes.data.bookings || bookingsRes.data.data || []);
+      const rList = Array.isArray(roomsRes.data) ? roomsRes.data : (roomsRes.data.rooms || roomsRes.data.data || []);
+      const gList = Array.isArray(guestsRes.data) ? guestsRes.data : (guestsRes.data.guests || guestsRes.data.data || []);
+      setBookings(bList);
+      setRooms(rList);
+      setGuests(gList);
     } catch (err) {
       toast.error('Failed to load bookings');
     } finally {
@@ -70,8 +73,11 @@ export default function Bookings({ onOpenInvoice }) {
   const handleCreateBooking = async (e) => {
     e.preventDefault();
     try {
+      const selectedRoom = rooms.find(r => r.id === formData.roomId);
+      const ratePerNight = selectedRoom?.roomType?.basePrice || 2500;
       await api.post('/bookings', {
         ...formData,
+        ratePerNight,
         totalAmount: calcTotal
       });
       toast.success('Reservation created successfully!');
@@ -105,7 +111,7 @@ export default function Bookings({ onOpenInvoice }) {
     const guestName = `${b.guest?.firstName || ''} ${b.guest?.lastName || ''}`.toLowerCase();
     const matchesSearch = guestName.includes(searchTerm.toLowerCase()) ||
       (b.bookingNumber && b.bookingNumber.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (b.room?.roomNumber && b.room.roomNumber.includes(searchTerm));
+      ((b.room?.number || b.room?.roomNumber) && (b.room?.number || b.room?.roomNumber).includes(searchTerm));
     const matchesStatus = statusFilter === 'ALL' || b.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -191,7 +197,7 @@ export default function Bookings({ onOpenInvoice }) {
                       <div className="text-xs text-muted">{b.guest?.phone}</div>
                     </td>
                     <td>
-                      <div className="font-bold">Room {b.room?.roomNumber}</div>
+                      <div className="font-bold">Room {b.room?.number || b.room?.roomNumber || '—'}</div>
                       <div className="text-xs text-muted">{b.room?.roomType?.name}</div>
                     </td>
                     <td>
@@ -278,7 +284,7 @@ export default function Bookings({ onOpenInvoice }) {
                       <option value="">-- Choose Room --</option>
                       {rooms.filter(r => r.status === 'AVAILABLE').map(r => (
                         <option key={r.id} value={r.id}>
-                          Room {r.roomNumber} — {r.roomType?.name} (₹{r.roomType?.basePrice}/night)
+                          Room {r.number || r.roomNumber} — {r.roomType?.name || 'Deluxe'} (₹{r.roomType?.basePrice || 2500}/night)
                         </option>
                       ))}
                     </select>

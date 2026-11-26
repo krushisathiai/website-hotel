@@ -12,6 +12,11 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import NotFound from './pages/notfound/NotFound';
 
+// Food & Waiter Operations
+import OrderFood from './pages/food/OrderFood';
+import WaiterOrders from './pages/waiter/WaiterOrders';
+import MyOrders from './pages/food/MyOrders';
+
 // Protected Module Pages
 import Dashboard from './pages/dashboard/Dashboard';
 import Rooms from './pages/rooms/Rooms';
@@ -104,6 +109,9 @@ export default function App() {
           <Route path="maintenance" element={<Maintenance />} />
           <Route path="staff" element={<Staff />} />
           <Route path="restaurant" element={<Restaurant />} />
+          <Route path="order-food" element={<OrderFood />} />
+          <Route path="waiter-orders" element={<WaiterOrders />} />
+          <Route path="my-orders" element={<MyOrders />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="expenses" element={<Expenses />} />
           <Route path="reports" element={<Reports />} />
