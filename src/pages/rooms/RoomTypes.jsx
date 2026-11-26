@@ -104,10 +104,7 @@ export default function RoomTypes() {
         </button>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {types.map(type => (
             <div key={type.id} className="card flex flex-col justify-between">
               <div>
@@ -150,7 +147,6 @@ export default function RoomTypes() {
             </div>
           ))}
         </div>
-      )}
 
       {showModal && (
         <div className="room-modal-backdrop" onClick={() => setShowModal(false)}>

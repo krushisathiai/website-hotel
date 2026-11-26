@@ -71,10 +71,7 @@ export default function Staff() {
         </button>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : (
-        <div className="card overflow-x-auto p-0">
+      <div className="card overflow-x-auto p-0">
           <table className="table">
             <thead>
               <tr>
@@ -110,7 +107,6 @@ export default function Staff() {
             </tbody>
           </table>
         </div>
-      )}
 
       {/* Staff Modal */}
       {showModal && (

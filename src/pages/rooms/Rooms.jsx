@@ -211,9 +211,7 @@ export default function Rooms() {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : filteredRooms.length === 0 ? (
+      {filteredRooms.length === 0 ? (
         <div className="card text-center p-12">
           <BedDouble size={48} className="text-muted mx-auto mb-3" />
           <h3 className="text-lg font-semibold">No rooms found</h3>

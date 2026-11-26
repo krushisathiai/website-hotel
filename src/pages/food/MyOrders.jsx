@@ -68,11 +68,7 @@ export default function MyOrders() {
         </div>
       </div>
 
-      {loading && orders.length === 0 ? (
-        <div className="flex justify-center p-16">
-          <div className="spinner"></div>
-        </div>
-      ) : orders.length === 0 ? (
+      {orders.length === 0 ? (
         <div className="card text-center p-12">
           <UtensilsCrossed size={48} className="text-muted mx-auto mb-3" />
           <h3 className="text-lg font-bold">No food orders placed yet</h3>

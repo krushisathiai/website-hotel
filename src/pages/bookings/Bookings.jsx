@@ -164,89 +164,85 @@ export default function Bookings({ onOpenInvoice }) {
         </select>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : (
-        <div className="card overflow-x-auto p-0">
-          <table className="table">
-            <thead>
+      <div className="card overflow-x-auto p-0">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Booking #</th>
+              <th>Guest</th>
+              <th>Room</th>
+              <th>Stay Dates</th>
+              <th>Total / Paid</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredBookings.length === 0 ? (
               <tr>
-                <th>Booking #</th>
-                <th>Guest</th>
-                <th>Room</th>
-                <th>Stay Dates</th>
-                <th>Total / Paid</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <td colSpan="7" className="text-center py-8 text-muted">No reservations found</td>
               </tr>
-            </thead>
-            <tbody>
-              {filteredBookings.length === 0 ? (
-                <tr>
-                  <td colSpan="7" className="text-center py-8 text-muted">No reservations found</td>
+            ) : (
+              filteredBookings.map(b => (
+                <tr key={b.id}>
+                  <td>
+                    <span className="font-mono font-bold text-sm text-primary">{b.bookingNumber || `BK-${b.id.slice(0, 6)}`}</span>
+                    <div className="text-xs text-muted">{new Date(b.createdAt).toLocaleDateString()}</div>
+                  </td>
+                  <td>
+                    <div className="font-semibold">{b.guest?.firstName} {b.guest?.lastName}</div>
+                    <div className="text-xs text-muted">{b.guest?.phone}</div>
+                  </td>
+                  <td>
+                    <div className="font-bold">Room {b.room?.number || b.room?.roomNumber || '—'}</div>
+                    <div className="text-xs text-muted">{b.room?.roomType?.name}</div>
+                  </td>
+                  <td>
+                    <div className="text-xs font-semibold">{new Date(b.checkInDate).toLocaleDateString()} → {new Date(b.checkOutDate).toLocaleDateString()}</div>
+                    <div className="text-xs text-muted">{b.adults} Adults {b.children > 0 ? `, ${b.children} Kids` : ''}</div>
+                  </td>
+                  <td>
+                    <div className="font-bold text-primary">₹{b.totalAmount}</div>
+                    <div className="text-xs text-muted">Paid: ₹{b.advancePaid || 0}</div>
+                  </td>
+                  <td>{getStatusBadge(b.status)}</td>
+                  <td>
+                    <div className="flex items-center gap-1">
+                      {b.status === 'CONFIRMED' && (
+                        <button 
+                          className="btn btn-sm btn-outline text-success" 
+                          title="Check-in guest"
+                          onClick={() => handleStatusUpdate(b.id, 'check-in')}
+                        >
+                          <LogIn size={14} className="mr-1 inline" /> Check In
+                        </button>
+                      )}
+                      {b.status === 'CHECKED_IN' && (
+                        <button 
+                          className="btn btn-sm btn-outline text-warning" 
+                          title="Check-out guest"
+                          onClick={() => handleStatusUpdate(b.id, 'check-out')}
+                        >
+                          <LogOut size={14} className="mr-1 inline" /> Check Out
+                        </button>
+                      )}
+                      {b.status === 'CONFIRMED' && (
+                        <button 
+                          className="btn btn-icon btn-sm text-danger" 
+                          title="Cancel Booking"
+                          onClick={() => handleStatusUpdate(b.id, 'cancel')}
+                        >
+                          <XCircle size={14} />
+                        </button>
+                      )}
+                    </div>
+                  </td>
                 </tr>
-              ) : (
-                filteredBookings.map(b => (
-                  <tr key={b.id}>
-                    <td>
-                      <span className="font-mono font-bold text-sm text-primary">{b.bookingNumber || `BK-${b.id.slice(0, 6)}`}</span>
-                      <div className="text-xs text-muted">{new Date(b.createdAt).toLocaleDateString()}</div>
-                    </td>
-                    <td>
-                      <div className="font-semibold">{b.guest?.firstName} {b.guest?.lastName}</div>
-                      <div className="text-xs text-muted">{b.guest?.phone}</div>
-                    </td>
-                    <td>
-                      <div className="font-bold">Room {b.room?.number || b.room?.roomNumber || '—'}</div>
-                      <div className="text-xs text-muted">{b.room?.roomType?.name}</div>
-                    </td>
-                    <td>
-                      <div className="text-xs font-semibold">{new Date(b.checkInDate).toLocaleDateString()} → {new Date(b.checkOutDate).toLocaleDateString()}</div>
-                      <div className="text-xs text-muted">{b.adults} Adults {b.children > 0 ? `, ${b.children} Kids` : ''}</div>
-                    </td>
-                    <td>
-                      <div className="font-bold text-primary">₹{b.totalAmount}</div>
-                      <div className="text-xs text-muted">Paid: ₹{b.advancePaid || 0}</div>
-                    </td>
-                    <td>{getStatusBadge(b.status)}</td>
-                    <td>
-                      <div className="flex items-center gap-1">
-                        {b.status === 'CONFIRMED' && (
-                          <button 
-                            className="btn btn-sm btn-outline text-success" 
-                            title="Check-in guest"
-                            onClick={() => handleStatusUpdate(b.id, 'check-in')}
-                          >
-                            <LogIn size={14} className="mr-1 inline" /> Check In
-                          </button>
-                        )}
-                        {b.status === 'CHECKED_IN' && (
-                          <button 
-                            className="btn btn-sm btn-outline text-warning" 
-                            title="Check-out guest"
-                            onClick={() => handleStatusUpdate(b.id, 'check-out')}
-                          >
-                            <LogOut size={14} className="mr-1 inline" /> Check Out
-                          </button>
-                        )}
-                        {b.status === 'CONFIRMED' && (
-                          <button 
-                            className="btn btn-icon btn-sm text-danger" 
-                            title="Cancel Booking"
-                            onClick={() => handleStatusUpdate(b.id, 'cancel')}
-                          >
-                            <XCircle size={14} />
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      )}
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* New Booking Modal */}
       {showModal && (

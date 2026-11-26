@@ -117,33 +117,29 @@ export default function Restaurant() {
         </button>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {services.map(item => (
-            <div key={item.id} className="card flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-base">{item.name}</h3>
-                  <span className="badge badge-secondary text-xs">{item.category}</span>
-                </div>
-                <p className="text-xs text-muted mb-4">{item.description || 'Delicious culinary offering freshly prepared.'}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {services.map(item => (
+          <div key={item.id} className="card flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-bold text-base">{item.name}</h3>
+                <span className="badge badge-secondary text-xs">{item.category}</span>
               </div>
-
-              <div>
-                <div className="text-xl font-black text-primary mb-3">₹{item.price}</div>
-                <button 
-                  className="btn btn-outline btn-sm w-full"
-                  onClick={() => openOrder(item)}
-                >
-                  <ShoppingCart size={14} className="mr-1 inline" /> Order / Charge to Room
-                </button>
-              </div>
+              <p className="text-xs text-muted mb-4">{item.description || 'Delicious culinary offering freshly prepared.'}</p>
             </div>
-          ))}
-        </div>
-      )}
+
+            <div>
+              <div className="text-xl font-black text-primary mb-3">₹{item.price}</div>
+              <button 
+                className="btn btn-outline btn-sm w-full"
+                onClick={() => openOrder(item)}
+              >
+                <ShoppingCart size={14} className="mr-1 inline" /> Order / Charge to Room
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Add Item Modal */}
       {showModal && (

@@ -183,29 +183,29 @@ export default function Billing() {
       {/* TAB 1: ACTIVE CHECKOUT QUEUE */}
       {activeTab === 'CHECKOUT' && (
         <div className="card p-0 overflow-x-auto">
-          {loading ? (
-            <div className="flex justify-center p-12"><div className="spinner"></div></div>
-          ) : activeBookings.length === 0 ? (
-            <div className="text-center py-12 text-muted">
-              <CheckCircle2 size={40} className="mx-auto text-success mb-2" />
-              <div className="font-bold">No pending checkouts</div>
-              <p className="text-xs mt-1">All current guests have settled their room stays and dining bills.</p>
-            </div>
-          ) : (
-            <table className="table">
-              <thead>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Booking #</th>
+                <th>Guest Name</th>
+                <th>Room</th>
+                <th>Dates</th>
+                <th>Nightly Rate</th>
+                <th>Current Status</th>
+                <th className="text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {activeBookings.length === 0 ? (
                 <tr>
-                  <th>Booking #</th>
-                  <th>Guest Name</th>
-                  <th>Room</th>
-                  <th>Dates</th>
-                  <th>Nightly Rate</th>
-                  <th>Current Status</th>
-                  <th className="text-right">Action</th>
+                  <td colSpan="7" className="text-center py-10 text-muted">
+                    <CheckCircle2 size={36} className="mx-auto text-success mb-2" />
+                    <div className="font-bold">No pending checkouts</div>
+                    <p className="text-xs mt-1">All current guests have settled their room stays and dining bills.</p>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {activeBookings.map(b => (
+              ) : (
+                activeBookings.map(b => (
                   <tr key={b.id}>
                     <td>
                       <span className="font-mono font-bold text-primary">{b.bookingNumber}</span>
@@ -236,10 +236,10 @@ export default function Billing() {
                       </button>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       )}
 
@@ -260,26 +260,28 @@ export default function Billing() {
           </div>
 
           <div className="card p-0 overflow-x-auto">
-            {loading ? (
-              <div className="flex justify-center p-12"><div className="spinner"></div></div>
-            ) : filteredInvoices.length === 0 ? (
-              <div className="text-center py-12 text-muted">No settled invoices match your filter</div>
-            ) : (
-              <table className="table">
-                <thead>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Invoice #</th>
+                  <th>Guest</th>
+                  <th>Room</th>
+                  <th>Date</th>
+                  <th>Payment Mode</th>
+                  <th>Total Amount (₹)</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredInvoices.length === 0 ? (
                   <tr>
-                    <th>Invoice #</th>
-                    <th>Guest</th>
-                    <th>Room</th>
-                    <th>Date</th>
-                    <th>Payment Mode</th>
-                    <th>Total Amount (₹)</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <td colSpan="8" className="text-center py-8 text-muted">
+                      No settled invoices match your filter
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {filteredInvoices.map(inv => (
+                ) : (
+                  filteredInvoices.map(inv => (
                     <tr key={inv.id}>
                       <td>
                         <span className="font-mono font-bold text-sm text-primary">
@@ -314,10 +316,10 @@ export default function Billing() {
                         </button>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
@@ -340,7 +342,7 @@ export default function Billing() {
             </div>
 
             {previewLoading || !checkoutPreview ? (
-              <div className="p-12 flex justify-center"><div className="spinner"></div></div>
+              <div className="p-8 text-center text-muted font-medium text-sm">Loading invoice calculations...</div>
             ) : (
               <form onSubmit={handleProcessCheckout}>
                 <div className="room-modal-body space-y-4">

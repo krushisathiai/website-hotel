@@ -4,23 +4,28 @@ import api from '../services/api';
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [loading, setLoading] = useState(false);
 
   const loadUser = useCallback(async () => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      setLoading(false);
-      return;
-    }
+    if (!token) return;
+
     try {
       const res = await api.get('/auth/me');
       setUser(res.data);
+      localStorage.setItem('user', JSON.stringify(res.data));
     } catch {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-    } finally {
-      setLoading(false);
+      setUser(null);
     }
   }, []);
 
@@ -31,6 +36,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await api.post('/auth/login', { email, password });
     localStorage.setItem('token', res.data.token);
+    localStorage.setItem('user', JSON.stringify(res.data.user));
     setUser(res.data.user);
     return res.data;
   };
@@ -38,6 +44,7 @@ export function AuthProvider({ children }) {
   const register = async (data) => {
     const res = await api.post('/auth/register', data);
     localStorage.setItem('token', res.data.token);
+    localStorage.setItem('user', JSON.stringify(res.data.user));
     setUser(res.data.user);
     return res.data;
   };
@@ -49,7 +56,11 @@ export function AuthProvider({ children }) {
   };
 
   const updateUser = (data) => {
-    setUser(prev => ({ ...prev, ...data }));
+    setUser(prev => {
+      const updated = { ...prev, ...data };
+      localStorage.setItem('user', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   return (

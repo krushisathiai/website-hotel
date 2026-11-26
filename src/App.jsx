@@ -39,17 +39,10 @@ import './App.css';
 
 // Protected Route Wrapper
 function ProtectedRoute({ children }) {
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const token = localStorage.getItem('token');
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-bg">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
-
-  if (!user) {
+  if (!user && !token) {
     return <Navigate to="/login" replace />;
   }
 

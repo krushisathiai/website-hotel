@@ -77,10 +77,7 @@ export default function Expenses() {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : (
-        <div className="card overflow-x-auto p-0">
+      <div className="card overflow-x-auto p-0">
           <table className="table">
             <thead>
               <tr>
@@ -104,7 +101,6 @@ export default function Expenses() {
             </tbody>
           </table>
         </div>
-      )}
 
       {showModal && (
         <div className="room-modal-backdrop" onClick={() => setShowModal(false)}>

@@ -73,10 +73,7 @@ export default function Housekeeping() {
         </button>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Pending Tasks */}
           <div className="space-y-3">
             <h3 className="font-bold text-base flex items-center justify-between">
@@ -156,7 +153,6 @@ export default function Housekeeping() {
             </div>
           </div>
         </div>
-      )}
 
       {/* Task Modal */}
       {showModal && (

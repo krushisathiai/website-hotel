@@ -43,10 +43,7 @@ export default function Reports() {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12"><div className="spinner"></div></div>
-      ) : (
-        <div className="space-y-6">
+      <div className="space-y-6">
           {/* Key KPI Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="card">
@@ -130,7 +127,6 @@ export default function Reports() {
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 }

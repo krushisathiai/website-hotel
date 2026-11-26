@@ -224,12 +224,7 @@ export default function OrderFood() {
           </div>
 
           {/* Food Cards Grid */}
-          {loading ? (
-            <div className="menu-loading">
-              <div className="spinner" />
-              <p>Loading fresh hotel menu...</p>
-            </div>
-          ) : filteredItems.length === 0 ? (
+          {filteredItems.length === 0 ? (
             <div className="empty-menu-box">
               <UtensilsCrossed size={48} />
               <h3>No dishes found</h3>

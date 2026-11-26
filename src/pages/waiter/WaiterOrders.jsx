@@ -172,11 +172,7 @@ export default function WaiterOrders() {
       </div>
 
       {/* Content / Orders Grid */}
-      {loading && orders.length === 0 ? (
-        <div className="flex justify-center p-16">
-          <div className="spinner"></div>
-        </div>
-      ) : filteredOrders.length === 0 ? (
+      {filteredOrders.length === 0 ? (
         <div className="empty-orders-state">
           <UtensilsCrossed size={48} className="text-muted mx-auto" />
           <h3 className="text-lg font-bold mt-3">No orders found</h3>
